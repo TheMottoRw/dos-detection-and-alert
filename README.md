@@ -1,6 +1,6 @@
 ## Project: Monitoring DOS Or DDOS on specific PORT
 
-- This project intends to limit number of connections that can be made to a specific per specific ip address to avoid denial of service
+- This project intends to limit number of connections that can be made to a specific port per specific ip address to avoid denial of service
 
 ### Installation
 ` Install python already installed in linux or download it from https://www.python.org/downloads for windows`
