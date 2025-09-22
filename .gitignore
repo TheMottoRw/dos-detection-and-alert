@@ -1,3 +1,9 @@
 venv
 .env
-
+datasets
+models
+ml_based_detection_predict.py
+ml_based_detection_train.py
+.idea
+__pycache__/
+.venv/
