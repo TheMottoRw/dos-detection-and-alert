@@ -13,6 +13,7 @@ _db = None
 _keyword = None
 _user = None
 _log = None
+_websites = None
 
 
 def get_client() -> MongoClient:
@@ -47,6 +48,12 @@ def get_log_collection():
     if _log is None:
         _log = get_db()["Logs"]
     return _log
+
+def get_websites_collection():
+    global _websites
+    if _websites is None:
+        _websites = get_db()["Websites"]
+    return _websites
 
 
 def ensure_keyword_collection():

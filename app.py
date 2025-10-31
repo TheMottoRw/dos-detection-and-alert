@@ -6,6 +6,10 @@ from dotenv import load_dotenv
 
 from api import db
 from pymongo.errors import ServerSelectionTimeoutError
+from api.routes.user_route import user_bp as user_routes
+from api.routes.log_route import log_bp as log_routes
+from api.routes.keyword_route import keyword_bp as keyword_routes
+from api.routes.websites_route import website_bp as website_routes
 
 load_dotenv()
 
@@ -13,23 +17,15 @@ app = Flask(__name__)
 
 # Register API blueprints
 try:
-    from api.routes.user_route import user_bp as user_routes
     app.register_blueprint(user_routes)
+    app.register_blueprint(log_routes)
+    app.register_blueprint(keyword_routes)
+    app.register_blueprint(website_routes)
+
+
 except Exception as e:
     # Fallback: continue running core endpoints even if user routes fail to import
     print(f"[WARN] Failed to register user routes: {e}")
-
-try:
-    from api.routes.log_route import log_bp as log_routes
-    app.register_blueprint(log_routes)
-except Exception as e:
-    print(f"[WARN] Failed to register log routes: {e}")
-
-try:
-    from api.routes.keyword_route import keyword_bp as keyword_routes
-    app.register_blueprint(keyword_routes)
-except Exception as e:
-    print(f"[WARN] Failed to register keyword routes: {e}")
 
 # ---- Swagger (OpenAPI) setup ----
 try:
