@@ -12,12 +12,12 @@ import csv, os
 
 from dotenv import load_dotenv
 
-from api.webmonitor import constants
+from . import constants
 # import constants
 import requests
 import urllib3
 
-from api.webmonitor.producer import Producer
+from .producer import Producer
 # urllib3.disable_warnings()
 import threading
 

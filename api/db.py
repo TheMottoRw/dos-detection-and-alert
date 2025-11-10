@@ -202,7 +202,7 @@ def ensure_log_collection():
 def ensure_admin():
     db = get_db()
     users = get_user_collection()
-    password = os.getenv("ADMIN_PASSWORD", "")  # Default admin password
+    password = os.getenv("ADMIN_PASSWORD", "12345")  # Default admin password
     print("Password:",password)
     admin = users.find_one({"userType": "admin"})
     if not admin:

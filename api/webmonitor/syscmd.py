@@ -1,5 +1,5 @@
 import re, sys, subprocess
-from api.webmonitor import constants
+from . import constants
 
 # import constants
 

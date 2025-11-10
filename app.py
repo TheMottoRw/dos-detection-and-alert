@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from dotenv import load_dotenv
 
 from api import db
@@ -14,6 +15,7 @@ from api.routes.websites_route import website_bp as website_routes
 load_dotenv()
 
 app = Flask(__name__)
+CORS(app, origins=['http://localhost:5173'], supports_credentials=True)
 
 # Register API blueprints
 try:

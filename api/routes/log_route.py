@@ -21,6 +21,6 @@ def list_logs():
 def update_log(id):
     return logs.update_log(id,request.get_json(force=True, silent=False))
 
-@log_bp.route("/log/<id>/delete", methods=["DELETE"])
+@log_bp.route("/log/<id>/delete", methods=["POST"])
 def delete_log(id):
     return logs.delete_log(id)

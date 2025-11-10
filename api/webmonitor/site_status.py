@@ -11,15 +11,13 @@ import json
 from requests.exceptions import TooManyRedirects
 from urllib3.exceptions import MaxRetryError, ConnectionError
 
-from api.webmonitor import db, constants, utils, syscmd, ssl_utils
+from . import constants, utils, syscmd
+from .. import db
 # import db, constants, utils, syscmd
 
 # from cryptography import x509
 import socket
 from difflib import SequenceMatcher
-
-from webcrawler import log_config
-
 
 def is_hacked(url=None, protocol='https', content=None,
               current_content=None, domain=None):

@@ -43,3 +43,11 @@ The requirements include:
 ### Unblocking blocked attacking IP address
 `In linux: iptables -D INPUT -s <ip> -j DROP`
 
+### Setup global libs to monitor process and save logs
+`sudo pip install psutil python-dotenv pymongo`
+### Run DOS Detection script
+`sudo python3 active_connection.py`
+
+### Run Website monitoring script
+`sudo python3 monitor_web.py`
+
