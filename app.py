@@ -6,11 +6,13 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 
 from api import db
+from db import get_collection
 from pymongo.errors import ServerSelectionTimeoutError
 from api.routes.user_route import user_bp as user_routes
 from api.routes.log_route import log_bp as log_routes
 from api.routes.keyword_route import keyword_bp as keyword_routes
 from api.routes.websites_route import website_bp as website_routes
+from api.routes.dashboard_route import dashboard_bp as dashboard_routes
 
 load_dotenv()
 
@@ -23,6 +25,7 @@ try:
     app.register_blueprint(log_routes)
     app.register_blueprint(keyword_routes)
     app.register_blueprint(website_routes)
+    app.register_blueprint(dashboard_routes)
 
 
 except Exception as e:

@@ -112,7 +112,7 @@ def ensure_user_collection():
                              },
                 "status": {
                     "bsonType": "string",
-                    "enum": ["active", "inactive", "blocked", "pending"],
+                    "enum": ["active", "deactive", "blocked", "pending"],
                     "description": "Account status"
                 },
                 "password": {"bsonType": "binData",

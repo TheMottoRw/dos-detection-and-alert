@@ -40,6 +40,9 @@ def request_password_reset():
 @user_bp.route("/auth/reset-password", methods=["POST"])
 def reset_password():
     return user.reset_password()
+@user_bp.route("/user/<id>/reset-password", methods=["POST"])
+def reset_user_password(id):
+    return user.reset_user_password(id)
 
 @user_bp.route("/user/<id>/change-password", methods=["POST"])
 def change_password(id):

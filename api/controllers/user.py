@@ -1,5 +1,7 @@
 import os
 from datetime import datetime, timedelta
+
+from bson import Binary
 from flask import Blueprint, request, jsonify
 from pymongo.errors import DuplicateKeyError
 import bcrypt
@@ -136,6 +138,9 @@ def update_user(id):
         return jsonify({"error": str(e)}), 400
 
     payload = request.get_json(force=True, silent=False)
+    if 'role' in payload:
+        payload['userType'] = payload['role']
+        payload.pop('role')
     if not isinstance(payload, dict):
         return jsonify({"error": "Invalid JSON"}), 400
 
@@ -392,6 +397,30 @@ def reset_password():
     )
 
     return jsonify({"status": "password updated"}), 200
+def reset_user_password(id):
+    users = get_user_collection()
+    data = request.get_json(force=True, silent=False)
+    email = (data.get("email") or "").strip().lower()
+    new_password = data.get("password") or ""
+    try:
+        _id = to_object_id(id)
+        user = users.find_one({"_id": _id, "isDeleted": {"$ne": True}})
+        if not user:
+            return jsonify({"error": "user does not exist"}), 400
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
+
+    if not new_password:
+        return jsonify({"error": "Password is required"}), 400
+
+    # Set new password and clear OTP fields
+    new_hash = bcrypt.hashpw(new_password.encode("utf-8"), bcrypt.gensalt())
+    users.update_one(
+        {"_id": user["_id"]},
+        {"$set": {"password": new_hash, "updatedAt": _now()},
+         "$unset": {"resetOtpHash": "", "resetOtpExpiresAt": "", "resetOtpAttempts": ""}}
+    )
+    return jsonify({"status": "password updated"}), 200
 
 
 def change_password(id):
@@ -402,7 +431,7 @@ def change_password(id):
     confirm_password = data.get("confirm_password") or ""
 
     if not current_password or not new_password or not confirm_password:
-        return jsonify({"error": "current passowrd, new password and confirm passowrd are required"}), 400
+        return jsonify({"error": "current password, new password and confirm password are required"}), 400
 
     user = users.find_one({"_id": to_object_id(id), "isDeleted": {"$ne": True}})
     if not user:
@@ -445,7 +474,7 @@ def lock_user(id):
 
     res = users.update_one(
         {"_id": _id},
-        {"$set": {"status": "blocked", "lockedUntil": lock_until, "updatedAt": _now()}}
+        {"$set": {"status": "deactive", "lockedUntil": lock_until, "updatedAt": _now()}}
     )
     if res.matched_count == 0:
         return jsonify({"error": "not found"}), 404
