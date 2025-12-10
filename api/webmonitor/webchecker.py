@@ -10,7 +10,7 @@ from api import db
 def _load_websites_into_producer(producer: Producer):
     try:
         coll = db.get_websites_collection()
-        cursor = coll.find({site_status:"active"}, {"site_name": 1, "index_page": 1, "site_status": 1})
+        cursor = coll.find({"site_status":"active"}, {"site_name": 1, "index_page": 1, "site_status": 1})
         items = []
         for doc in cursor:
             site_name = doc.get("site_name")

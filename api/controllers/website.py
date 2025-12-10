@@ -76,6 +76,7 @@ def update_website(id,payload):
     to_set = {}
     if "name" in payload and payload["name"]:
         to_set["site_name"] = str(payload["name"]).strip().lower()
+        to_set["index_page"] = ""
     if "status" in payload and payload["status"]:
         to_set["site_status"] = str(payload["status"]).strip().lower()
 

@@ -14,8 +14,11 @@ MAIL_RECEIVER = ""
 
 def block_ip(ip):
     print(f"[!] Blocking IP {ip} for {BAN_TIME}s")
-    subprocess.run(["iptables", "-A", "INPUT", "-s", ip, "-j", "DROP"])
-    banned_ips[ip] = time.time() + BAN_TIME
+    if ip == '127.0.0.1' or ip == 'localhost':
+        print(f"{ip} DOS detected, but IP can not be blocked because it will block all localhost connection including database access")
+    else:
+        subprocess.run(["iptables", "-A", "INPUT", "-s", ip, "-j", "DROP"])
+        banned_ips[ip] = time.time() + BAN_TIME
 
 def unblock_ip(ip):
     print(f"[+] Unblocking IP {ip}")
